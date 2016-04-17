@@ -16,7 +16,8 @@
     "express": "^4.13.4",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
-    "webpack": "^1.12.14"
+    "webpack": "^1.12.14",
+    "ws": "^1.1.0"
   },
   "devDependencies": {
     "babel-preset-react-hmre": "^1.1.0",

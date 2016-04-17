@@ -7,15 +7,42 @@ export default class Messenger extends Component {
     super(props);
     this.state = {
       messages: [],
-      currentText: ''
+      currentText: '',
+      socket: undefined
     };
   }
 
+  componentWillMount() {
+    const socket = new WebSocket('ws://localhost:8392');
+    socket.onopen = () => console.log('Opened connection!');
+    socket.onerror = err => console.error('caught error', err);
+
+    socket.onmessage = event => {
+      const text = event.data;
+      console.log('received socket message', text);
+
+      const message = {
+        text,
+        received: true
+      };
+
+      this.setState({
+        messages: this.state.messages.concat(message)
+      });
+    };
+
+    this.setState({socket});
+  }
+
   sendMessage() {
+    const text = this.state.currentText;
+
     const message = {
-      text: this.state.currentText,
+      text,
       received: false
     };
+
+    this.state.socket.send(text);
 
     this.setState({
       messages: this.state.messages.concat(message)
